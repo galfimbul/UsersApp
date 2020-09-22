@@ -11,13 +11,13 @@ import ru.aevshvetsov.usersapp.viewmodels.UsersDetailsViewModel
 
 private const val ID = "id"
 
-class UsersDetails : Fragment() {
+class UserDetailsFragment : Fragment() {
     private var id: String? = null
 
     companion object {
         @JvmStatic
         fun newInstance(id: String) =
-            UsersDetails().apply {
+            UserDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID, id)
                 }
