@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_margin">8dp</dimen>
+    <dimen name="users_list_avatar_size">50dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="spacing_normal_16">16dp</dimen>
+</resources>

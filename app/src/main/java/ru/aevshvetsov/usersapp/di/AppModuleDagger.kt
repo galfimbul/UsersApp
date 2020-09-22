@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.aevshvetsov.usersapp.Constants
+import ru.aevshvetsov.usersapp.database.UsersAppDatabase
 import javax.inject.Singleton
 
 @Module
@@ -39,5 +40,11 @@ class AppModuleDagger(private val application: Application) {
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(): UsersAppDatabase {
+        return UsersAppDatabase.getDatabase(application)
     }
 }

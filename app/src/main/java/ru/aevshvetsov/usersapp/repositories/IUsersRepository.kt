@@ -1,5 +1,7 @@
 package ru.aevshvetsov.usersapp.repositories
 
+import androidx.lifecycle.LiveData
+import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.models.NetworkResponse
 
 /**
@@ -7,5 +9,7 @@ import ru.aevshvetsov.usersapp.models.NetworkResponse
  */
 interface IUsersRepository {
     suspend fun getUsersFromServer(): NetworkResponse
-    fun getUsersFromDatabase()
+    fun getUsersFromDatabase(): LiveData<List<UserEntity>>
+    fun setDataToDatabase(feedList: NetworkResponse)
+    fun deleteItemFromDatabase(item: UserEntity)
 }

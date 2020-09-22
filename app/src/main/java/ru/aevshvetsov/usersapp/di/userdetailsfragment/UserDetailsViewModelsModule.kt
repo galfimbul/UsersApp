@@ -5,13 +5,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.aevshvetsov.usersapp.di.ViewModelKey
-import ru.aevshvetsov.usersapp.viewmodels.UsersViewModel
+import ru.aevshvetsov.usersapp.viewmodels.UserDetailsViewModel
 
 @Module
 abstract class UserDetailsViewModelsModule {
     @Binds
     @IntoMap
-    @ViewModelKey(UsersViewModel::class)
-    abstract fun bindListOfBoardsViewModel(listOfBoardsViewModel: UsersViewModel): ViewModel
+    @ViewModelKey(UserDetailsViewModel::class)
+    abstract fun bindUserDetailsViewModel(userDetailsViewModel: UserDetailsViewModel): ViewModel
 
 }

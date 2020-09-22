@@ -2,18 +2,36 @@ package ru.aevshvetsov.usersapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import ru.aevshvetsov.usersapp.models.NetworkResponse
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.repositories.IUsersRepository
 import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(val repository: IUsersRepository) : ViewModel() {
 
-    fun getUsersFromServer(): LiveData<NetworkResponse> {
-        return liveData(Dispatchers.IO) {
+    private val job = Job()
+
+    fun getUsersFromDB(): LiveData<List<UserEntity>> {
+        return repository.getUsersFromDatabase()
+    }
+
+    fun getUserRequest() {
+        CoroutineScope(Dispatchers.IO + job).launch {
             val feedList = repository.getUsersFromServer()
-            emit(feedList)
+            repository.setDataToDatabase(feedList)
+
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
+
+    fun deleteItemFromDatabase(item: UserEntity) {
+        repository.deleteItemFromDatabase(item)
     }
 }

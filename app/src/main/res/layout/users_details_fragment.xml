@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.screens.UserDetailsFragment">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_details_fragment"/>
+    <ru.aevshvetsov.usersapp.custom.AvatarImageView
+            android:id="@+id/iv_users_details_avatar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/standard_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+    <EditText
+            android:id="@+id/et_users_details_first_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/iv_users_details_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="FIRST NAME"
+            android:textColor="@android:color/black"
+            android:enabled="false"
+            android:layout_margin="@dimen/standard_margin"/>
+
+    <EditText
+            android:id="@+id/et_users_details_last_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_users_details_first_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="LAST NAME"
+            android:textColor="@android:color/black"
+            android:enabled="false"
+            android:layout_margin="@dimen/standard_margin"/>
+    <EditText
+            android:id="@+id/et_users_details_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_users_details_last_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="EMAIL"
+            android:textColor="@android:color/black"
+            android:enabled="false"
+            android:layout_margin="@dimen/standard_margin"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
