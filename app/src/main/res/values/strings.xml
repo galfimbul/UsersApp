@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">UsersApp</string>
+    <string name="hello_users_fragment">Users Fragment</string>
+    <string name="hello_details_fragment">Details Fragment</string>
+</resources>
