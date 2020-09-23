@@ -10,15 +10,17 @@ import ru.aevshvetsov.usersapp.R
 import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.ui.viewholders.BlankUserViewHolder
 import ru.aevshvetsov.usersapp.ui.viewholders.UsersListViewHolder
+import timber.log.Timber
 
 /**
  * Created by Alexander Shvetsov on 22.09.2020
  */
 class UsersListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var itemsList: MutableList<UserEntity>
+    private var itemsList: List<UserEntity> = emptyList()
     private var itemDismissListener: ItemDismissListener? = null
-    private var onItemClickListener: ItemOnClickListener? = null // обработчик нажатий на элемент RecyclerView
+    // обработчик нажатий на элемент RecyclerView
+    private var onItemClickListener: ItemOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -63,6 +65,7 @@ class UsersListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        Timber.d("getItemCount called")
         return itemsList.size
     }
 
@@ -85,6 +88,7 @@ class UsersListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun submitList(list: List<UserEntity>) {
+        Timber.d("submit list called")
         itemsList = list.toMutableList()
         notifyDataSetChanged()
     }

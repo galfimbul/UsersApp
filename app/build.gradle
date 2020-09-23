@@ -86,9 +86,14 @@ dependencies {
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     implementation "androidx.fragment:fragment:$fragment_version"
 
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // androidx.test
     def androidx_test = "1.1.0"
     androidTestImplementation "androidx.test:runner:$androidx_test"
     androidTestImplementation "androidx.test:core:$androidx_test"
     androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 }

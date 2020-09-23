@@ -2,6 +2,7 @@ package ru.aevshvetsov.usersapp.ui.screens
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -28,12 +29,14 @@ class UserDetailsFragment : Fragment() {
     lateinit var toolbarMenu: Menu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.title = getString(R.string.User_details_fragment_title)
+
         arguments?.let {
             id = it.getString(ID)
         }
+        //Инжектим зависимости
         val component = (requireActivity().application as UsersApp).appComponent.getUserDetailsSubcomponent()
         component.inject(this)
+
     }
 
     override fun onCreateView(
@@ -45,7 +48,9 @@ class UserDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Устанавливаем в тулбар меню и стрелку назад
         initToolbar()
+        //Подписываемся на изменения информации о конкретном контакте
         userDetailsViewModel.getUsersInfoFromDB(id!!).observe(this) {
             userInfo = it
             parseItem(userInfo)
@@ -69,9 +74,13 @@ class UserDetailsFragment : Fragment() {
             R.id.menu_delete -> {
                 deleteUserFromDB(userInfo)
             }
+            android.R.id.home -> {
+                activity?.supportFragmentManager!!.popBackStack()
+            }
         }
         return true
     }
+
 
     private fun deleteUserFromDB(userInfo: UserEntity) {
         userDetailsViewModel.deleteUserFromDatabase(userInfo)
@@ -79,6 +88,10 @@ class UserDetailsFragment : Fragment() {
     }
 
     private fun saveChangesToDB() {
+        /**
+         * Выключаем кнопку сохранения информации, показываем кнопку редактирования.
+         * Сохраняем новые данные пользователя в базу.
+         */
         val editMenuItem = toolbarMenu.findItem(R.id.menu_edit)
         val applyMenuItem = toolbarMenu.findItem(R.id.menu_apply)
         editMenuItem.isVisible = true
@@ -113,6 +126,9 @@ class UserDetailsFragment : Fragment() {
     }
 
     private fun initToolbar() {
+        activity?.setTitle(R.string.user_details_fragment_title)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         setHasOptionsMenu(true)
     }
 
@@ -124,7 +140,6 @@ class UserDetailsFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance(id: String) =
             UserDetailsFragment().apply {
                 arguments = Bundle().apply {

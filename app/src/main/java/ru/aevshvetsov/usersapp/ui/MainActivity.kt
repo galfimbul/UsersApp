@@ -15,9 +15,11 @@ import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.ui.adapters.ItemClickListener
 import ru.aevshvetsov.usersapp.ui.screens.UserDetailsFragment
 import ru.aevshvetsov.usersapp.ui.screens.UsersFragment
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), ItemClickListener {
     lateinit var connectivityManager: ConnectivityManager
+    lateinit var connectivityManagerCallback: ConnectivityManager.NetworkCallback
     var isNetworkConnected: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +27,22 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setCheckConnections()
-        if (savedInstanceState != null) {
-            setFragment(UsersFragment.newInstance(true))
-        } else setFragment(UsersFragment.newInstance(false))
+        if (savedInstanceState == null) {
+            setFragment(UsersFragment.newInstance(false))
+        }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(connectivityManagerCallback)
+    }
+
+
     private fun setCheckConnections() {
+
         connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder().build()
-        val connectivityManagerCallback: ConnectivityManager.NetworkCallback =
+        connectivityManagerCallback =
             object : ConnectivityManager.NetworkCallback() {
 
                 private val activeNetworks: MutableList<Network> = mutableListOf()
@@ -59,11 +68,14 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
                 }
             }
         connectivityManager.registerNetworkCallback(networkRequest, connectivityManagerCallback)
+        Timber.d("setCheckConnections() is successful")
     }
 
     private fun setFragment(fragment: Fragment) {
+        Timber.d("setFragment: ${fragment.javaClass.simpleName}")
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.left_right, R.anim.right_left, R.anim.right_left, R.anim.left_right)
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
@@ -71,6 +83,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     private fun setFragmentAndAddToBackStack(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.right_left, R.anim.left_right, R.anim.right_left, R.anim.left_right)
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()

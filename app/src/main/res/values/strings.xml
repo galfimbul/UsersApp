@@ -16,9 +16,10 @@
     <string name="users_details_first_name_hint">Введите имя</string>
     <string name="users_details_last_name_hint">Введите фамилию</string>
     <string name="users_details_email_hint">Введите email</string>
-    <string name="User_details_fragment_title">Информация о пользователе</string>
+    <string name="user_details_fragment_title">Подробная информация</string>
     <string name="users_fragment_title">Список пользователей</string>
     <string name="users_details_fragment_last_name_label">Фамилия:</string>
     <string name="users_details_fragment_first_name_label">Имя:</string>
     <string name="users_details_fragment_email_label">Email:</string>
+    <string name="users_list_fragment_title">Список пользователей</string>
 </resources>

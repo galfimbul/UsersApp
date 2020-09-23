@@ -13,6 +13,7 @@ import javax.inject.Inject
 class UsersViewModel @Inject constructor(val repository: IUsersRepository) : ViewModel() {
 
     private val job = Job()
+    var isInitialize = false
 
     fun getUsersFromDB(): LiveData<List<UserEntity>?> {
         return repository.getUsersFromDatabase()

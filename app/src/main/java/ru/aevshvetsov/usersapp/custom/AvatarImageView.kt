@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
@@ -13,6 +12,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import ru.aevshvetsov.usersapp.R
 import ru.aevshvetsov.usersapp.utils.Utils
+import timber.log.Timber
 
 /**
  * Created by Alexander Shvetsov on 29.11.2019
@@ -38,7 +38,7 @@ class AvatarImageView @JvmOverloads constructor(
         )
     }
 
-    var borderWidth: Float = Utils.dpToPx(DEFAULT_BORDER_WIDTH).toFloat()
+    var borderWidth: Float = Utils.dpToPx(DEFAULT_BORDER_WIDTH)
     @ColorInt
     private var borderColor: Int = Color.WHITE
     private var initials: String = "??"
@@ -77,7 +77,7 @@ class AvatarImageView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.e("AvatarImageView", "onSizeChanged: ")
+        Timber.d("onSizeChanged: ")
         if (w == 0) return
         with(viewRect) {
             left = 0
@@ -89,7 +89,7 @@ class AvatarImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        Log.e("AvatarImageView", "onDraw: ")
+        Timber.d("onDraw: ")
         // NOT allocate, ONLY draw
 
         if (drawable != null) drawAvatar(canvas)
@@ -108,36 +108,36 @@ class AvatarImageView @JvmOverloads constructor(
         super.setImageBitmap(bm)
         if (isAvatarMode) prepareShader(width, height)
         //prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageBitmap")
+        Timber.d("setImageBitmap")
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
         if (isAvatarMode) prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageDrawable")
+        Timber.d("setImageDrawable")
     }
 
     override fun setImageResource(@DrawableRes resId: Int) {
         super.setImageResource(resId)
         if (isAvatarMode) prepareShader(width, height)
-        Log.e("AvatarImageView", "setImageResource")
+        Timber.d("setImageResource")
     }
 
     fun setInitials(initials: String) {
-        Log.e("AvatarImageView", "setInitials : $initials")
+        Timber.d("setInitials : $initials")
         this.initials = initials
         if (!isAvatarMode) invalidate()
     }
 
     fun setBorderColor(@ColorInt color: Int) {
-        Log.e("AvatarImageView", "setBorderColor : $color")
+        Timber.d("setBorderColor : $color")
         borderColor = color
         borderPaint.color = borderColor
         invalidate()
     }
 
     fun setBorderWidth(@Dimension width: Int) {
-        Log.e("AvatarImageView", "setBorderColor : $width")
+        Timber.d("setBorderColor : $width")
         borderWidth = Utils.dpToPx(width)
         borderPaint.strokeWidth = borderWidth
         invalidate()
