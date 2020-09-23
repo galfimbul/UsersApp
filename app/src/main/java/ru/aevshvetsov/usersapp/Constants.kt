@@ -5,4 +5,5 @@ package ru.aevshvetsov.usersapp
  */
 object Constants {
     const val BASE_URL = "https://reqres.in/api/"
+    const val IS_INITIALIZED_KEY = "isInitialized"
 }

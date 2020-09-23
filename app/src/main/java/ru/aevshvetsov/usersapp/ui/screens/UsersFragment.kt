@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_users.*
+import ru.aevshvetsov.usersapp.Constants.IS_INITIALIZED_KEY
 import ru.aevshvetsov.usersapp.R
 import ru.aevshvetsov.usersapp.UsersApp
 import ru.aevshvetsov.usersapp.database.UserEntity
+import ru.aevshvetsov.usersapp.ui.MainActivity
 import ru.aevshvetsov.usersapp.ui.adapters.ItemDismissListener
 import ru.aevshvetsov.usersapp.ui.adapters.ItemOnClickListener
 import ru.aevshvetsov.usersapp.ui.adapters.UsersListAdapter
@@ -34,12 +37,16 @@ class UsersFragment : Fragment() {
     lateinit var usersListAdapter: UsersListAdapter
     lateinit var usersList: List<UserEntity>
     private var itemClickListener: ItemClickListener? = null
+    private var isInitialized: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (requireActivity().application as UsersApp).appComponent.getUsersListSubcomponent()
         component.inject(this)
+        arguments?.let {
+            isInitialized = it.getBoolean(IS_INITIALIZED_KEY)
+        }
     }
 
     override fun onCreateView(
@@ -51,17 +58,44 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!isInitialized)
+            getUsersNetworkRequest()
+
         usersViewModel.getUsersFromDB().observe(this) {
-            if (it == null) {
-                usersViewModel.getUserRequest()
-            } else {
-                usersList = it
-                updateUI()
+            when {
+                it == null || it.isEmpty() -> {
+                    usersList =
+                        listOf(UserEntity(id = -1, firstName = getString(R.string.users_list_empty_database_error)))
+                    updateUI()
+                }
+                else -> {
+                    usersList = it
+                    updateUI()
+                    isInitialized = true
+                }
             }
+
         }
         users_list_refresh.setOnRefreshListener {
-            usersViewModel.getUserRequest()
+            getUsersNetworkRequest()
         }
+    }
+
+    private fun checkInternetConnection(): Boolean {
+        return (activity as MainActivity).isNetworkConnected
+    }
+
+    private fun getUsersNetworkRequest() {
+        if (checkInternetConnection()) {
+            usersViewModel.getUserRequest()
+        } else {
+            showToast(getString(R.string.users_list_network_lost_results_from_database))
+            users_list_refresh.isRefreshing = false
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -111,6 +145,11 @@ class UsersFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = UsersFragment()
+        fun newInstance(isInitialized: Boolean) =
+            UsersFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(IS_INITIALIZED_KEY, isInitialized)
+                }
+            }
     }
 }
