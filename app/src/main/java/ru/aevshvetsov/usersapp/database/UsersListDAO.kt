@@ -21,7 +21,7 @@ interface UsersListDAO {
     fun deleteAllUsers()
 
     @Query("SELECT * FROM users_table ORDER BY id")
-    fun getUsersList(): LiveData<List<UserEntity>>
+    fun getUsersList(): LiveData<List<UserEntity>?>
 
     @Query("SELECT * FROM users_table WHERE id =:currencyId")
     fun getUserInfo(currencyId: String): LiveData<UserEntity>

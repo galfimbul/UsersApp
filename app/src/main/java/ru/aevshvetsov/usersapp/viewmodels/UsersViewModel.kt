@@ -14,7 +14,7 @@ class UsersViewModel @Inject constructor(val repository: IUsersRepository) : Vie
 
     private val job = Job()
 
-    fun getUsersFromDB(): LiveData<List<UserEntity>> {
+    fun getUsersFromDB(): LiveData<List<UserEntity>?> {
         return repository.getUsersFromDatabase()
     }
 

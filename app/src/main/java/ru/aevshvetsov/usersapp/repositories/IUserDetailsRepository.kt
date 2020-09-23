@@ -8,5 +8,6 @@ import ru.aevshvetsov.usersapp.database.UserEntity
  */
 interface IUserDetailsRepository {
     fun getUsersInfoFromDatabase(id: String): LiveData<UserEntity>
-    fun deleteItemFromDatabase(item: UserEntity)
+    fun deleteUserFromDatabase(item: UserEntity)
+    fun saveUserInfoChangesToDB(changedUser: UserEntity)
 }

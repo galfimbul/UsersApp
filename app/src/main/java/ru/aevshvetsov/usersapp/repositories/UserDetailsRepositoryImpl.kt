@@ -1,6 +1,9 @@
 package ru.aevshvetsov.usersapp.repositories
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.database.UsersAppDatabase
 import javax.inject.Inject
@@ -18,8 +21,17 @@ class UserDetailsRepositoryImpl @Inject constructor(val database: UsersAppDataba
 
     }
 
-    override fun deleteItemFromDatabase(item: UserEntity) {
-        userInfoDAO.delete(item)
+    override fun deleteUserFromDatabase(item: UserEntity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userInfoDAO.delete(item)
+        }
+    }
+
+    override fun saveUserInfoChangesToDB(changedUser: UserEntity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userInfoDAO.insert(listOf(changedUser))
+        }
+
     }
 
 }

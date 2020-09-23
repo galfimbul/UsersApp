@@ -3,4 +3,7 @@
     <string name="hello_users_fragment">Users Fragment</string>
     <string name="hello_details_fragment">Details Fragment</string>
     <string name="text_on_swipe">Удаление</string>
+    <string name="menu_item_edit_title">Редактировать</string>
+    <string name="menu_item_apply_title">Применить</string>
+    <string name="menu_item_delete_title">Удалить пользователя</string>
 </resources>

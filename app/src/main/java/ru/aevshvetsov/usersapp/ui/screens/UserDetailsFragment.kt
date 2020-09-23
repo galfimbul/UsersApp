@@ -1,9 +1,7 @@
 package ru.aevshvetsov.usersapp.ui.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -20,12 +18,14 @@ private const val ID = "id"
 
 class UserDetailsFragment : Fragment() {
     private var id: String? = null
+    lateinit var userInfo: UserEntity
 
     @Inject
     lateinit var factory: ViewModelProviderFactory
     private val userDetailsViewModel by lazy {
         ViewModelProvider(this, factory).get(UserDetailsViewModel::class.java)
     }
+    lateinit var toolbarMenu: Menu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -44,10 +44,75 @@ class UserDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
         userDetailsViewModel.getUsersInfoFromDB(id!!).observe(this) {
-            val item = it
-            parseItem(item)
+            userInfo = it
+            parseItem(userInfo)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        toolbarMenu = menu
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_edit -> {
+                setEditEnabled()
+            }
+            R.id.menu_apply -> {
+                saveChangesToDB()
+            }
+            R.id.menu_delete -> {
+                deleteUserFromDB(userInfo)
+            }
+        }
+        return true
+    }
+
+    private fun deleteUserFromDB(userInfo: UserEntity) {
+        userDetailsViewModel.deleteUserFromDatabase(userInfo)
+        activity?.supportFragmentManager!!.popBackStack()
+    }
+
+    private fun saveChangesToDB() {
+        val editMenuItem = toolbarMenu.findItem(R.id.menu_edit)
+        val applyMenuItem = toolbarMenu.findItem(R.id.menu_apply)
+        editMenuItem.isVisible = true
+        applyMenuItem.isVisible = false
+        setEditTextEnableState(false)
+        val changedFirstName = et_users_details_first_name.text.toString()
+        val changedLastName = et_users_details_last_name.text.toString()
+        val changedEmail = et_users_details_email.text.toString()
+
+        val changedUser = userInfo
+            .copy(
+                firstName = changedFirstName,
+                lastName = changedLastName,
+                email = changedEmail
+            )
+        userDetailsViewModel.saveUserInfoChangesToDB(changedUser)
+    }
+
+    private fun setEditEnabled() {
+        val editMenuItem = toolbarMenu.findItem(R.id.menu_edit)
+        val applyMenuItem = toolbarMenu.findItem(R.id.menu_apply)
+        editMenuItem.isVisible = false
+        applyMenuItem.isVisible = true
+        setEditTextEnableState(true)
+
+    }
+
+    private fun setEditTextEnableState(state: Boolean) {
+        et_users_details_first_name.isEnabled = state
+        et_users_details_last_name.isEnabled = state
+        et_users_details_email.isEnabled = state
+    }
+
+    private fun initToolbar() {
+        setHasOptionsMenu(true)
     }
 
     private fun parseItem(item: UserEntity) {

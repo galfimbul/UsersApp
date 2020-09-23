@@ -9,7 +9,7 @@ import ru.aevshvetsov.usersapp.models.NetworkResponse
  */
 interface IUsersRepository {
     suspend fun getUsersFromServer(): NetworkResponse
-    fun getUsersFromDatabase(): LiveData<List<UserEntity>>
+    fun getUsersFromDatabase(): LiveData<List<UserEntity>?>
     fun setDataToDatabase(feedList: NetworkResponse)
     fun deleteItemFromDatabase(item: UserEntity)
 }

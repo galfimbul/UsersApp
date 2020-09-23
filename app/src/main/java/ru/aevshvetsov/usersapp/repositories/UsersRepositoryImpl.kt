@@ -22,7 +22,7 @@ class UsersRepositoryImpl @Inject constructor(val retrofit: UsersListApi, val da
         return retrofit.getUsersList(page = "2")
     }
 
-    override fun getUsersFromDatabase(): LiveData<List<UserEntity>> {
+    override fun getUsersFromDatabase(): LiveData<List<UserEntity>?> {
         return usersListFromDB
     }
 

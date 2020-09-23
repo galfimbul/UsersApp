@@ -35,6 +35,7 @@ class UsersFragment : Fragment() {
     lateinit var usersList: List<UserEntity>
     private var itemClickListener: ItemClickListener? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (requireActivity().application as UsersApp).appComponent.getUsersListSubcomponent()
@@ -50,23 +51,26 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        usersViewModel.getUserRequest()
         usersViewModel.getUsersFromDB().observe(this) {
-            usersList = it
-            updateUI()
+            if (it == null) {
+                usersViewModel.getUserRequest()
+            } else {
+                usersList = it
+                updateUI()
+            }
         }
         users_list_refresh.setOnRefreshListener {
             usersViewModel.getUserRequest()
         }
     }
 
+
     private fun updateUI() {
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         val touchHandler = ItemTouchHelper(
             UsersListTouchHelper(
                 usersListAdapter,
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                ItemTouchHelper.LEFT
             )
         )
         with(rv_users_list) {

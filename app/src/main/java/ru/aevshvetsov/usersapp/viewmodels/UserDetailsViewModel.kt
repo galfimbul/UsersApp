@@ -20,7 +20,11 @@ class UserDetailsViewModel @Inject constructor(val repository: IUserDetailsRepos
         job.cancel()
     }
 
-    fun deleteItemFromDatabase(item: UserEntity) {
-        repository.deleteItemFromDatabase(item)
+    fun deleteUserFromDatabase(item: UserEntity) {
+        repository.deleteUserFromDatabase(item)
+    }
+
+    fun saveUserInfoChangesToDB(changedUser: UserEntity) {
+        repository.saveUserInfoChangesToDB(changedUser)
     }
 }
