@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.aevshvetsov.usersapp.R
 import ru.aevshvetsov.usersapp.database.UserEntity
-import ru.aevshvetsov.usersapp.ui.screens.ItemClickListener
+import ru.aevshvetsov.usersapp.ui.adapters.ItemClickListener
 import ru.aevshvetsov.usersapp.ui.screens.UserDetailsFragment
 import ru.aevshvetsov.usersapp.ui.screens.UsersFragment
 

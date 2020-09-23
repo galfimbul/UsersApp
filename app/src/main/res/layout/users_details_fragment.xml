@@ -25,6 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="FIRST NAME"
+            android:hint="@string/users_details_first_name_hint"
             android:textColor="@android:color/black"
             android:enabled="false"
             android:layout_margin="@dimen/standard_margin"/>
@@ -37,6 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="LAST NAME"
+            android:hint="@string/users_details_last_name_hint"
             android:textColor="@android:color/black"
             android:enabled="false"
             android:layout_margin="@dimen/standard_margin"/>
@@ -48,6 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="EMAIL"
+            android:hint="@string/users_details_email_hint"
             android:textColor="@android:color/black"
             android:enabled="false"
             android:layout_margin="@dimen/standard_margin"/>

@@ -13,4 +13,7 @@
     <string name="users_list_empty_database_error">База данных пуста. Проверьте соединение с интернетом и обновите
         экран
     </string>
+    <string name="users_details_first_name_hint">Введите имя</string>
+    <string name="users_details_last_name_hint">Введите фамилию</string>
+    <string name="users_details_email_hint">Введите email</string>
 </resources>

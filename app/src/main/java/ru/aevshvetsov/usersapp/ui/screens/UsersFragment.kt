@@ -18,6 +18,7 @@ import ru.aevshvetsov.usersapp.R
 import ru.aevshvetsov.usersapp.UsersApp
 import ru.aevshvetsov.usersapp.database.UserEntity
 import ru.aevshvetsov.usersapp.ui.MainActivity
+import ru.aevshvetsov.usersapp.ui.adapters.ItemClickListener
 import ru.aevshvetsov.usersapp.ui.adapters.ItemDismissListener
 import ru.aevshvetsov.usersapp.ui.adapters.ItemOnClickListener
 import ru.aevshvetsov.usersapp.ui.adapters.UsersListAdapter
