@@ -43,6 +43,7 @@ class UsersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.title = getString(R.string.users_fragment_title)
         val component = (requireActivity().application as UsersApp).appComponent.getUsersListSubcomponent()
         component.inject(this)
         arguments?.let {

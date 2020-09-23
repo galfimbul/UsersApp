@@ -28,6 +28,7 @@ class UserDetailsFragment : Fragment() {
     lateinit var toolbarMenu: Menu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.title = getString(R.string.User_details_fragment_title)
         arguments?.let {
             id = it.getString(ID)
         }
